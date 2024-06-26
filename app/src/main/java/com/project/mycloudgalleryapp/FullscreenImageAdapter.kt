@@ -5,29 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 
-class FullscreenImageAdapter(
-    private val context: Context,
-    private val images: List<ImageData>
-) : RecyclerView.Adapter<FullscreenImageAdapter.ImageViewHolder>() {
+class FullscreenImageAdapter(private val context: Context, private val images: List<ImageData>) : PagerAdapter() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_fullscreen_image, parent, false)
-        return ImageViewHolder(view)
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.item_fullscreen_image, container, false)
+        val imageView = view.findViewById<ImageView>(R.id.fullscreen_image_view)
+        Glide.with(context).load(images[position].imageUrl).into(imageView)
+        container.addView(view)
+        return view
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image = images[position]
-        Glide.with(context).load(image.imageUrl).into(holder.imageView)
-    }
+    override fun getCount(): Int = images.size
 
-    override fun getItemCount(): Int {
-        return images.size
-    }
+    override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
 
-    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        container.removeView(`object` as View)
     }
 }

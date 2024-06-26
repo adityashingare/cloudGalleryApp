@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -38,13 +37,8 @@ class UploadActivity : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
         databaseReference = FirebaseDatabase.getInstance().getReference("uploads")
 
-        buttonChooseImage.setOnClickListener {
-            openFileChooser()
-        }
-
-        buttonUpload.setOnClickListener {
-            uploadImage()
-        }
+        buttonChooseImage.setOnClickListener { openFileChooser() }
+        buttonUpload.setOnClickListener { uploadFile() }
     }
 
     private fun openFileChooser() {
@@ -56,44 +50,38 @@ class UploadActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             imageUri = data.data
             imageView.setImageURI(imageUri)
-            buttonUpload.visibility = android.view.View.VISIBLE
         }
     }
 
-    private fun uploadImage() {
+    private fun uploadFile() {
         if (imageUri != null) {
-            progressBar.visibility = android.view.View.VISIBLE
-            val fileReference = storageReference.child("uploads/" + System.currentTimeMillis() + ".jpg")
+            val fileReference = storageReference.child(System.currentTimeMillis().toString() + "." + getFileExtension(imageUri!!))
+
+            progressBar.visibility = ProgressBar.VISIBLE
+
             fileReference.putFile(imageUri!!)
                 .addOnSuccessListener {
                     fileReference.downloadUrl.addOnSuccessListener { uri ->
-                        val upload = ImageData(uri.toString(), System.currentTimeMillis())
-                        val uploadId = databaseReference.push().key
-                        if (uploadId != null) {
-                            databaseReference.child(uploadId).setValue(upload)
-                        }
-                        progressBar.visibility = android.view.View.GONE
-                        buttonUpload.visibility = android.view.View.GONE
-                        Toast.makeText(this, "Successfully uploaded", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
+                        val uploadId = databaseReference.push().key ?: return@addOnSuccessListener
+                        val upload = ImageData(uploadId, uri.toString())
+                        databaseReference.child(uploadId).setValue(upload)
                     }
+
+                    progressBar.visibility = ProgressBar.INVISIBLE
+                    finish()
                 }
                 .addOnFailureListener {
-                    progressBar.visibility = android.view.View.GONE
+                    progressBar.visibility = ProgressBar.INVISIBLE
                 }
         }
     }
 
-
-    private fun redirectToMainActivity() {
-        val intent = Intent(this@UploadActivity, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-        finish()
+    private fun getFileExtension(uri: Uri): String {
+        return contentResolver.getType(uri)?.substringAfterLast("/") ?: "jpg"
     }
 
     companion object {

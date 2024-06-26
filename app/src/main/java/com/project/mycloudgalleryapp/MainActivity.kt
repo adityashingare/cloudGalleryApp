@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var imageList: MutableList<ImageData>
     private lateinit var databaseReference: DatabaseReference
-    private var currentImagePosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView = findViewById(R.id.nav_view)
         recyclerView = findViewById(R.id.recyclerView)
 
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -59,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 for (postSnapshot in snapshot.children) {
                     val imageData = postSnapshot.getValue(ImageData::class.java)
                     if (imageData != null) {
-                        imageList.add(0, imageData) // Add to the beginning of the list to show recent first
+                        imageList.add(imageData)
                     }
                 }
                 imageAdapter.notifyDataSetChanged()
@@ -69,10 +66,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
             }
         })
-
-        // Restore last image position
-        currentImagePosition = SharedPreferenceHelper.getLastImagePosition(this)
-        recyclerView.scrollToPosition(currentImagePosition)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -105,22 +98,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onItemClick(position: Int) {
-        currentImagePosition = position
         val intent = Intent(this, FullscreenImageActivity::class.java)
         intent.putParcelableArrayListExtra("images", ArrayList(imageList))
         intent.putExtra("position", position)
         startActivity(intent)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        // Save last image position
-        SharedPreferenceHelper.saveLastImagePosition(this, currentImagePosition)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // Save last image position
-        SharedPreferenceHelper.saveLastImagePosition(this, currentImagePosition)
     }
 }
