@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -15,6 +16,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
+    private lateinit var registerButton: TextView
+    private lateinit var forgetPasswordButton: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         loginButton = findViewById(R.id.loginButton)
+        registerButton = findViewById(R.id.registerTextView)
+        forgetPasswordButton = findViewById(R.id.forgotPasswordTextView)
 
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -44,6 +49,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        registerButton.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
+        forgetPasswordButton.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
     }
 
     private fun loginUser(email: String, password: String) {
@@ -59,4 +72,13 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
+    fun goToRegister(view: android.view.View) {
+        startActivity(Intent(this, RegisterActivity::class.java))
+    }
+
+    fun goToForgotPassword(view: android.view.View) {
+        startActivity(Intent(this, ForgotPasswordActivity::class.java))
+    }
 }
+
