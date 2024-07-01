@@ -57,6 +57,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
+
     private fun uploadFile() {
         if (imageUri != null) {
             val fileReference = storageReference.child(System.currentTimeMillis().toString() + "." + getFileExtension(imageUri!!))

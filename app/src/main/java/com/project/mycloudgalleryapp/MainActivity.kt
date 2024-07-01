@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ImageAdapter.OnItemClickListener {
 
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab).setOnClickListener {
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             startActivity(Intent(this, UploadActivity::class.java))
         }
 
@@ -50,13 +51,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerView.adapter = imageAdapter
 
         databaseReference = FirebaseDatabase.getInstance().getReference("uploads")
-        databaseReference.addValueEventListener(object : ValueEventListener {
+
+        loadImages()
+    }
+
+    private fun loadImages() {
+        databaseReference.orderByChild("timestamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 imageList.clear()
                 for (postSnapshot in snapshot.children) {
                     val imageData = postSnapshot.getValue(ImageData::class.java)
                     if (imageData != null) {
-                        imageList.add(imageData)
+                        imageList.add(0, imageData)  // Add at the beginning to have most recent first
                     }
                 }
                 imageAdapter.notifyDataSetChanged()

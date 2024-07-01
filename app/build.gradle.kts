@@ -90,5 +90,6 @@ dependencies {
     implementation (libs.androidx.viewpager2)
     implementation (libs.androidx.recyclerview)
     implementation(kotlin("script-runtime"))
+    implementation (libs.picasso)
 
 }

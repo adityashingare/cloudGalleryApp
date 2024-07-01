@@ -6,12 +6,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:layout_margin="16dp"/>
-
+        android:contentDescription="@string/selected_image"
+        android:scaleType="centerCrop" />
 
     <Button
         android:id="@+id/button_choose_image"

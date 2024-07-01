@@ -5,7 +5,8 @@ import android.os.Parcelable
 
 data class ImageData(
     var id: String = "",
-    var imageUrl: String = ""
+    var imageUrl: String = "",
+    val timestamp: Long = System.currentTimeMillis()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
