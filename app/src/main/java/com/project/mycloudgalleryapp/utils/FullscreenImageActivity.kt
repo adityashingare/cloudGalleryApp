@@ -38,7 +38,8 @@ class FullscreenImageActivity : AppCompatActivity() {
     }
 
     private fun deleteImage() {
-        val imageToDelete = images[viewPager.currentItem]
+        val currentPosition = viewPager.currentItem
+        val imageToDelete = images[currentPosition]
 
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Delete Image")
@@ -49,13 +50,19 @@ class FullscreenImageActivity : AppCompatActivity() {
                     val databaseReference = FirebaseDatabase.getInstance().getReference("uploads").child(imageToDelete.id)
                     databaseReference.removeValue().addOnCompleteListener {
                         if (it.isSuccessful) {
-                            images.removeAt(viewPager.currentItem)
+                            images.removeAt(currentPosition)
                             imageAdapter.notifyDataSetChanged()
                             Toast.makeText(this, "Image deleted successfully", Toast.LENGTH_SHORT).show()
+
                             if (images.isEmpty()) {
-                                finish()
+                                finish() // Close the activity if no images are left
                             } else {
-                                viewPager.currentItem = if (viewPager.currentItem == images.size) images.size - 1 else viewPager.currentItem
+                                // Set the current item to the previous item if the last item was deleted
+                                viewPager.currentItem = if (currentPosition >= images.size) {
+                                    images.size - 1
+                                } else {
+                                    currentPosition
+                                }
                             }
                         } else {
                             Toast.makeText(this, "Failed to delete image from database", Toast.LENGTH_SHORT).show()
@@ -71,6 +78,8 @@ class FullscreenImageActivity : AppCompatActivity() {
 
         alertDialog.show()
     }
+
+
 
     private fun shareImage() {
         val imageToShare = images[viewPager.currentItem]
