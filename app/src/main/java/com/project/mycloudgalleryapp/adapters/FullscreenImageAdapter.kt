@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.project.mycloudgalleryapp.data.ImageData
+import com.project.mycloudgalleryapp.R
 
 class FullscreenImageAdapter(private val context: Context, private val images: List<ImageData>) : PagerAdapter() {
 

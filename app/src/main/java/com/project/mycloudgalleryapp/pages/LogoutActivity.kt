@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 import android.content.Intent
 import android.os.Bundle

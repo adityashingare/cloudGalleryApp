@@ -1,6 +1,5 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.utils
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.project.mycloudgalleryapp.R
+import com.project.mycloudgalleryapp.adapters.FullscreenImageAdapter
+import com.project.mycloudgalleryapp.data.ImageData
 
 class FullscreenImageActivity : AppCompatActivity() {
 

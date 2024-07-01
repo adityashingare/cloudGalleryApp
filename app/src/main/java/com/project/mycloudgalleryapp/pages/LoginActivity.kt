@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.project.mycloudgalleryapp.R
+import com.project.mycloudgalleryapp.sharedpreferences.SharedPreferenceHelper
 
 class LoginActivity : AppCompatActivity() {
 

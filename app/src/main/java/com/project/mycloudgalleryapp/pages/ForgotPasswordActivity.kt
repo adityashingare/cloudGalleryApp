@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 import android.os.Bundle
 import android.widget.Button
@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.project.mycloudgalleryapp.R
 
 class ForgotPasswordActivity : AppCompatActivity() {
 

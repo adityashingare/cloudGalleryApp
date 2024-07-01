@@ -1,10 +1,11 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.project.mycloudgalleryapp.R
 
 class AccountActivity : AppCompatActivity() {
 

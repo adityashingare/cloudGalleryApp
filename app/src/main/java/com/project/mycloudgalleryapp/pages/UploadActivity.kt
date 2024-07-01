@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.project.mycloudgalleryapp.data.ImageData
+import com.project.mycloudgalleryapp.R
 
 class UploadActivity : AppCompatActivity() {
 

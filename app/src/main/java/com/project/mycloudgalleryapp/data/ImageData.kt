@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.data
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.pages
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,8 +14,13 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.project.mycloudgalleryapp.utils.FullscreenImageActivity
+import com.project.mycloudgalleryapp.adapters.ImageAdapter
+import com.project.mycloudgalleryapp.data.ImageData
+import com.project.mycloudgalleryapp.R
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ImageAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    ImageAdapter.OnItemClickListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
@@ -32,7 +37,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView = findViewById(R.id.nav_view)
         recyclerView = findViewById(R.id.recyclerView)
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 

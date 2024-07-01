@@ -1,4 +1,4 @@
-package com.project.mycloudgalleryapp
+package com.project.mycloudgalleryapp.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
